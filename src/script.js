@@ -10,10 +10,18 @@
   var doc = document, 
     head = doc.getElementsByTagName('head')[0],
     validBase = /^https?:\/\//,
-    list = {}, ids = {}, delay = {}, scriptpath,
-    scripts = {}, s = 'string', f = false,
-    push = 'push', domContentLoaded = 'DOMContentLoaded', readyState = 'readyState',
-    addEventListener = 'addEventListener', onreadystatechange = 'onreadystatechange';
+    list = {}, 
+    ids = {}, 
+    delay = {}, 
+    scriptpath,
+    scripts = {}, 
+    s = 'string', 
+    f = false,
+    push = 'push', 
+    domContentLoaded = 'DOMContentLoaded', 
+    readyState = 'readyState',
+    addEventListener = 'addEventListener', 
+    onreadystatechange = 'onreadystatechange';
 
   function every(ar, fn) {
     for (var i = 0, j = ar.length; i < j; ++i) {
@@ -72,17 +80,19 @@
         
         scripts[path] = 1;
         id && (ids[id] = 1);
-        create(!validBase.test(path) && (scriptpath ? scriptpath : '') + path, callback);
+        scriptpath = scriptpath || '';
+        create(!validBase.test(path) && (scriptpath + path), callback);
       });
     }, 0);
     return $script;
   }
 
   function create(path, fn) {
-    var el = doc.createElement('script');
+    var el = doc.createElement('script'),
         loaded = f;
         
     el.onload = el.onerror = el[onreadystatechange] = function () {
+      
       if ((el[readyState] && !(/^c|loade/.test(el[readyState]))) || loaded) {
         return;
       }
